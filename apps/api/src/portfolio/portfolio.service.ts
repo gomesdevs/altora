@@ -1,10 +1,11 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { Inject, Injectable, NotFoundException } from "@nestjs/common";
 import {
   aggregatePortfolio,
   calculateConcentration,
   round4,
 } from "@altora/domain";
 
+import { PORTFOLIO_REPOSITORY } from "../tokens";
 import type { PortfolioRepository } from "./portfolio.repository";
 
 export type ConsolidatedPortfolioDto = {
@@ -20,7 +21,10 @@ export type ConsolidatedPortfolioDto = {
 
 @Injectable()
 export class PortfolioService {
-  constructor(private readonly repo: PortfolioRepository) {}
+  constructor(
+    @Inject(PORTFOLIO_REPOSITORY)
+    private readonly repo: PortfolioRepository,
+  ) {}
 
   async getConsolidated(tenantId: string): Promise<ConsolidatedPortfolioDto> {
     const record = await this.repo.findByTenant(tenantId);
@@ -28,7 +32,6 @@ export class PortfolioService {
       throw new NotFoundException("Portfolio not found for tenant");
     }
 
-    // Métricas só via @altora/domain (nunca no controller/front)
     const portfolio = aggregatePortfolio(record.assets, record.cash);
     const byClass = calculateConcentration(portfolio, "class");
     const yieldAnnual = round4(

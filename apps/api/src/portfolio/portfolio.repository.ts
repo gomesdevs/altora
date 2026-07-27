@@ -1,13 +1,16 @@
 import type { Asset, Money } from "@altora/domain";
 import {
   SILVA_FO_CASH,
+  SILVA_FO_ENTITIES,
   SILVA_FO_TENANT_ID,
   silvaFoDomainAssets,
+  type SeedEntity,
 } from "@altora/domain";
 
 export type PortfolioRecord = {
   assets: Asset[];
   cash: Money;
+  entities: SeedEntity[];
 };
 
 export interface PortfolioRepository {
@@ -25,6 +28,7 @@ export class InMemoryPortfolioRepository implements PortfolioRepository {
     this.byTenant.set(SILVA_FO_TENANT_ID, {
       assets: silvaFoDomainAssets(),
       cash: { ...SILVA_FO_CASH },
+      entities: SILVA_FO_ENTITIES.map((e) => ({ ...e })),
     });
   }
 
