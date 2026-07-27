@@ -1,0 +1,44 @@
+{
+  "id": "NN-nome-do-cenario",
+  "type": "baseline",
+  "description": "Descreva o cenário em uma frase.",
+  "calculation_notes": "Documente como os valores expected foram calculados.",
+  "input": {
+    "snapshot": {},
+    "premises": {}
+  },
+  "expected": {
+    "cashFlow": {
+      "30d": { "amount": 0, "currency": "BRL" },
+      "90d": { "amount": 0, "currency": "BRL" },
+      "180d": { "amount": 0, "currency": "BRL" },
+      "365d": { "amount": 0, "currency": "BRL" }
+    },
+    "yield": {
+      "before": 0,
+      "after": {
+        "min": 0,
+        "max": 0,
+        "confidence": "medium"
+      }
+    },
+    "concentration": {
+      "byClass": {},
+      "byRegion": {}
+    },
+    "structuralLiquidity": {
+      "30d": { "amount": 0, "currency": "BRL" },
+      "90d": { "amount": 0, "currency": "BRL" },
+      "180d": { "amount": 0, "currency": "BRL" },
+      "365d": { "amount": 0, "currency": "BRL" }
+    },
+    "netWorth": { "amount": 0, "currency": "BRL" },
+    "disclaimer": "Cenário hipotético para modelagem patrimonial. Não constitui recomendação de investimento.",
+    "confidence": "medium"
+  },
+  "tolerance": {
+    "absolute": 100,
+    "relative": 0.001
+  },
+  "invariants": ["INV-02", "INV-04", "INV-10"]
+}
