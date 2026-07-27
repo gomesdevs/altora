@@ -36,3 +36,14 @@ export {
   horizonToMonths,
   DEFAULT_DISCLAIMER,
 } from "./simulation/index.js";
+export {
+  SILVA_FO_TENANT_ID,
+  SILVA_FO_TENANT_NAME,
+  SILVA_FO_CASH,
+  SILVA_FO_ENTITIES,
+  SILVA_FO_ASSETS,
+  silvaFoDomainAssets,
+  toDomainAsset,
+  type SeedAssetRow,
+  type SeedEntity,
+} from "./fixtures/silva-fo.js";
