@@ -89,10 +89,12 @@ Teste de integração: `apps/what-if/__tests__/engine.harness.test.ts` reutiliza
 
 PR que altera `packages/domain` ou `apps/what-if` **deve**:
 
-- [ ] Passar `pnpm test:domain`
-- [ ] Passar `pnpm validate:fixtures`
+- [x] Passar `pnpm test:domain` (via CI)
+- [x] Passar `pnpm validate:fixtures` (ajv + schemas)
 - [ ] Atualizar `expected` em fixtures se regra de negócio mudou (com `calculation_notes`)
 - [ ] Não alterar snapshot canônico sem bump de `version`
+
+Workflow: [`.github/workflows/ci.yml`](../../../.github/workflows/ci.yml) — lint → typecheck → test → test:domain → validate:fixtures → test:boundaries → build.
 
 ## Métricas pós-ativação
 
