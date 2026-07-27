@@ -1,0 +1,31 @@
+---
+description: Git — agentes commitam, humano faz push
+alwaysApply: true
+---
+
+# Git workflow
+
+## Commits obrigatórios
+
+- Commitar **cada mudança lógica concluída** — não deixar trabalho só no working tree
+- Um commit por unidade de trabalho (feature, fix, doc, ADR)
+- Antes de encerrar a sessão, commitar alterações pendentes
+
+## Push proibido
+
+- **Nunca** executar `git push` — o usuário publica no remote
+- Se precisar de remote atualizado, informar o usuário para fazer push
+
+## Mensagens
+
+Formato: `tipo(escopo): descrição imperativa`
+
+Tipos: `feat`, `fix`, `docs`, `chore`, `refactor`, `test`
+
+## Proibido
+
+- `git push`, `git push --force`
+- `git config`, `git reset --hard`
+- Commitar `.env`, credenciais, secrets
+
+Ver [AGENTS.md](../../AGENTS.md#git--commits-e-push).
