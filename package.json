@@ -1,0 +1,24 @@
+{
+  "name": "altora",
+  "private": true,
+  "packageManager": "pnpm@11.9.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "turbo run dev --parallel",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "test:domain": "turbo run test --filter=@altora/domain",
+    "db:generate": "pnpm --filter @altora/db generate",
+    "db:migrate": "pnpm --filter @altora/db migrate",
+    "db:seed": "pnpm --filter @altora/db seed",
+    "validate:fixtures": "node tooling/ci/validate-fixtures.mjs"
+  },
+  "devDependencies": {
+    "turbo": "^2.5.4",
+    "typescript": "^5.8.3"
+  }
+}
