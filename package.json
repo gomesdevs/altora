@@ -15,9 +15,12 @@
     "db:generate": "pnpm --filter @altora/db generate",
     "db:migrate": "pnpm --filter @altora/db migrate",
     "db:seed": "pnpm --filter @altora/db seed",
-    "validate:fixtures": "node tooling/ci/validate-fixtures.mjs"
+    "validate:fixtures": "node tooling/ci/validate-fixtures.mjs",
+    "test:boundaries": "node tooling/ci/check-boundaries.mjs"
   },
   "devDependencies": {
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1",
     "turbo": "^2.5.4",
     "typescript": "^5.8.3"
   }
