@@ -1,5 +1,6 @@
 import {
   index,
+  integer,
   jsonb,
   pgTable,
   text,
@@ -73,6 +74,48 @@ export const portfolioCash = pgTable("portfolio_cash", {
     .defaultNow()
     .notNull(),
 });
+
+/** Cenário what-if: premissas + referência ao snapshot imutável. */
+export const scenarios = pgTable(
+  "scenarios",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    tenantId: uuid("tenant_id")
+      .notNull()
+      .references(() => tenants.id),
+    name: text("name").notNull(),
+    snapshotId: text("snapshot_id").notNull(),
+    snapshotVersion: integer("snapshot_version").notNull(),
+    snapshot: jsonb("snapshot").notNull(),
+    premises: jsonb("premises").notNull().default({}),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+  },
+  (table) => [index("scenarios_tenant_id_idx").on(table.tenantId)],
+);
+
+/** Resultado persistido da simulação (append-oriented). */
+export const simulationResults = pgTable(
+  "simulation_results",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    tenantId: uuid("tenant_id")
+      .notNull()
+      .references(() => tenants.id),
+    scenarioId: uuid("scenario_id")
+      .notNull()
+      .references(() => scenarios.id),
+    result: jsonb("result").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+  },
+  (table) => [
+    index("simulation_results_tenant_id_idx").on(table.tenantId),
+    index("simulation_results_scenario_id_idx").on(table.scenarioId),
+  ],
+);
 
 /** Append-only — sem UPDATE/DELETE na aplicação. */
 export const auditLogs = pgTable(

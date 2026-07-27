@@ -54,6 +54,32 @@ async function main() {
   `;
 
   await sql`
+    CREATE TABLE IF NOT EXISTS scenarios (
+      id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+      tenant_id uuid NOT NULL REFERENCES tenants(id),
+      name text NOT NULL,
+      snapshot_id text NOT NULL,
+      snapshot_version integer NOT NULL,
+      snapshot jsonb NOT NULL,
+      premises jsonb NOT NULL DEFAULT '{}'::jsonb,
+      created_at timestamptz NOT NULL DEFAULT now()
+    )
+  `;
+  await sql`CREATE INDEX IF NOT EXISTS scenarios_tenant_id_idx ON scenarios (tenant_id)`;
+
+  await sql`
+    CREATE TABLE IF NOT EXISTS simulation_results (
+      id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+      tenant_id uuid NOT NULL REFERENCES tenants(id),
+      scenario_id uuid NOT NULL REFERENCES scenarios(id),
+      result jsonb NOT NULL,
+      created_at timestamptz NOT NULL DEFAULT now()
+    )
+  `;
+  await sql`CREATE INDEX IF NOT EXISTS simulation_results_tenant_id_idx ON simulation_results (tenant_id)`;
+  await sql`CREATE INDEX IF NOT EXISTS simulation_results_scenario_id_idx ON simulation_results (scenario_id)`;
+
+  await sql`
     CREATE TABLE IF NOT EXISTS audit_logs (
       id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
       tenant_id uuid NOT NULL REFERENCES tenants(id),
@@ -72,6 +98,8 @@ async function main() {
     "entities",
     "assets",
     "portfolio_cash",
+    "scenarios",
+    "simulation_results",
     "audit_logs",
   ] as const) {
     await sql.unsafe(`ALTER TABLE ${table} ENABLE ROW LEVEL SECURITY`);
