@@ -46,6 +46,14 @@ async function main() {
   await sql`CREATE INDEX IF NOT EXISTS assets_entity_id_idx ON assets (entity_id)`;
 
   await sql`
+    CREATE TABLE IF NOT EXISTS portfolio_cash (
+      tenant_id uuid PRIMARY KEY REFERENCES tenants(id),
+      cash jsonb NOT NULL,
+      updated_at timestamptz NOT NULL DEFAULT now()
+    )
+  `;
+
+  await sql`
     CREATE TABLE IF NOT EXISTS audit_logs (
       id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
       tenant_id uuid NOT NULL REFERENCES tenants(id),
@@ -60,7 +68,12 @@ async function main() {
   await sql`CREATE INDEX IF NOT EXISTS audit_logs_tenant_id_idx ON audit_logs (tenant_id)`;
 
   // RLS — rede de segurança (ADR-002)
-  for (const table of ["entities", "assets", "audit_logs"] as const) {
+  for (const table of [
+    "entities",
+    "assets",
+    "portfolio_cash",
+    "audit_logs",
+  ] as const) {
     await sql.unsafe(`ALTER TABLE ${table} ENABLE ROW LEVEL SECURITY`);
     await sql.unsafe(`DROP POLICY IF EXISTS tenant_isolation ON ${table}`);
     await sql.unsafe(`

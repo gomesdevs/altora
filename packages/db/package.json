@@ -16,12 +16,13 @@
     "dev": "tsc -p tsconfig.json --watch",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "lint": "tsc -p tsconfig.json --noEmit",
-    "test": "node -e \"process.exit(0)\"",
+    "test": "vitest run",
     "generate": "drizzle-kit generate",
     "migrate": "tsx src/migrate.ts",
     "seed": "tsx src/seed.ts"
   },
   "dependencies": {
+    "@altora/domain": "workspace:*",
     "drizzle-orm": "^0.44.2",
     "postgres": "^3.4.7"
   },
@@ -30,6 +31,7 @@
     "@types/node": "^22.15.30",
     "drizzle-kit": "^0.31.1",
     "tsx": "^4.20.3",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.4"
   }
 }

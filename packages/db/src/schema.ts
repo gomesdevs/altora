@@ -63,6 +63,17 @@ export const assets = pgTable(
   ],
 );
 
+/** Caixa consolidado por tenant (Money em jsonb). */
+export const portfolioCash = pgTable("portfolio_cash", {
+  tenantId: uuid("tenant_id")
+    .primaryKey()
+    .references(() => tenants.id),
+  cash: jsonb("cash").notNull().$type<{ amount: number; currency: "BRL" }>(),
+  updatedAt: timestamp("updated_at", { withTimezone: true })
+    .defaultNow()
+    .notNull(),
+});
+
 /** Append-only — sem UPDATE/DELETE na aplicação. */
 export const auditLogs = pgTable(
   "audit_logs",

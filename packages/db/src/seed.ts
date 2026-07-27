@@ -1,16 +1,28 @@
 /**
- * Seed idempotente de desenvolvimento — dados fictícios (nunca de clientes reais).
+ * Seed idempotente — portfólio canônico Silva FO.
+ * Fonte: docs/domain/harness/fixtures/_base/portfolio-silva-fo.json
  */
 import { eq } from "drizzle-orm";
 
 import { createDb } from "./client.js";
-import { assets, auditLogs, entities, tenants } from "./schema.js";
+import {
+  assets,
+  auditLogs,
+  entities,
+  portfolioCash,
+  tenants,
+} from "./schema.js";
+import {
+  SILVA_FO_ASSETS,
+  SILVA_FO_CASH,
+  SILVA_FO_ENTITIES,
+  SILVA_FO_TENANT_ID,
+  SILVA_FO_TENANT_NAME,
+} from "./seed-data/silva-fo.js";
 
 const url =
   process.env.DATABASE_URL ??
   "postgresql://altora:altora@localhost:5432/altora";
-
-const DEV_TENANT_NAME = "Silva Family Office (dev)";
 
 async function main() {
   const db = createDb(url);
@@ -18,54 +30,81 @@ async function main() {
   const existing = await db
     .select()
     .from(tenants)
-    .where(eq(tenants.name, DEV_TENANT_NAME))
+    .where(eq(tenants.id, SILVA_FO_TENANT_ID))
     .limit(1);
 
-  if (existing[0]) {
-    console.log("db:seed already applied —", existing[0].id);
-    process.exit(0);
+  if (!existing[0]) {
+    await db.insert(tenants).values({
+      id: SILVA_FO_TENANT_ID,
+      name: SILVA_FO_TENANT_NAME,
+    });
+  } else if (existing[0].name !== SILVA_FO_TENANT_NAME) {
+    await db
+      .update(tenants)
+      .set({ name: SILVA_FO_TENANT_NAME })
+      .where(eq(tenants.id, SILVA_FO_TENANT_ID));
   }
 
-  const [tenant] = await db
-    .insert(tenants)
-    .values({ name: DEV_TENANT_NAME })
-    .returning();
-
-  if (!tenant) {
-    throw new Error("failed to insert tenant");
+  for (const entity of SILVA_FO_ENTITIES) {
+    const found = await db
+      .select()
+      .from(entities)
+      .where(eq(entities.id, entity.id))
+      .limit(1);
+    if (!found[0]) {
+      await db.insert(entities).values({
+        id: entity.id,
+        tenantId: SILVA_FO_TENANT_ID,
+        name: entity.name,
+        type: entity.type,
+      });
+    }
   }
 
-  const [entity] = await db
-    .insert(entities)
+  // Re-sync assets do canônico (idempotente)
+  await db.delete(assets).where(eq(assets.tenantId, SILVA_FO_TENANT_ID));
+  await db.insert(assets).values(
+    SILVA_FO_ASSETS.map((asset) => ({
+      id: asset.id,
+      tenantId: SILVA_FO_TENANT_ID,
+      entityId: asset.entityId,
+      type: asset.type,
+      name: asset.name,
+      payload: {
+        ...asset.domain,
+        id: asset.id,
+        entityId: asset.entityId,
+        type: asset.type,
+        name: asset.name,
+      },
+    })),
+  );
+
+  await db
+    .insert(portfolioCash)
     .values({
-      tenantId: tenant.id,
-      name: "Holding Silva Ltda.",
-      type: "holding",
+      tenantId: SILVA_FO_TENANT_ID,
+      cash: SILVA_FO_CASH,
     })
-    .returning();
-
-  if (!entity) {
-    throw new Error("failed to insert entity");
-  }
-
-  await db.insert(assets).values({
-    tenantId: tenant.id,
-    entityId: entity.id,
-    type: "fii",
-    name: "FII Exemplo (seed)",
-    payload: { note: "ativo fictício para desenvolvimento" },
-  });
+    .onConflictDoUpdate({
+      target: portfolioCash.tenantId,
+      set: { cash: SILVA_FO_CASH, updatedAt: new Date() },
+    });
 
   await db.insert(auditLogs).values({
-    tenantId: tenant.id,
+    tenantId: SILVA_FO_TENANT_ID,
     actorId: "seed",
-    action: "seed.bootstrap",
+    action: "seed.silva_fo",
     resourceType: "tenant",
-    resourceId: tenant.id,
-    metadata: { source: "db:seed" },
+    resourceId: SILVA_FO_TENANT_ID,
+    metadata: {
+      source: "db:seed",
+      assets: SILVA_FO_ASSETS.length,
+      netWorthTarget: 3_850_000,
+    },
   });
 
-  console.log("db:seed ok — tenant", tenant.id);
+  console.log("db:seed ok — Silva FO tenant", SILVA_FO_TENANT_ID);
   process.exit(0);
 }
 
