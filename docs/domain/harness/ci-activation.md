@@ -7,7 +7,7 @@ Checklist para quando o monorepo (`package.json`, `pnpm-workspace.yaml`) existir
 - [x] Bootstrap do monorepo ([ADR-001](../../adr/001-monorepo-pnpm-turborepo.md))
 - [x] `packages/domain` criado
 - [x] Vitest configurado no monorepo
-- [ ] (Opcional) `fast-check` para invariantes property-based
+- [x] (Opcional) `fast-check` para invariantes property-based
 
 ## Passo 1 — Schemas → Zod
 
@@ -17,37 +17,17 @@ Gerar tipos com `z.infer<typeof Schema>` — fonte única para front e back. **F
 
 ## Passo 2 — Fixtures → código
 
-```bash
-cp -r docs/domain/harness/fixtures/_base packages/domain/__fixtures__/base
-cp docs/domain/harness/fixtures/*.fixture.json packages/domain/__fixtures__/
-```
+Fixtures copiadas para `packages/domain/__fixtures__/`. **Feito.**
 
 Manter `docs/domain/harness/fixtures/` como **fonte canônica**; cópia no package é para execução de testes.
 
 ## Passo 3 — Implementar contratos
 
-Seguir ordem em [`contracts.md`](contracts.md):
-
-1. Métricas (`calculateEffectiveYield`, `calculateConcentration`)
-2. Liquidez (`calculateStructuralLiquidity`)
-3. Portfolio e snapshot
-4. Simulação (`projectCashFlow`, `applyStress`, `simulate`)
-5. Confiança epistemológica
+**Feito** — métricas, liquidez, portfolio, snapshot, simulação e confiança em `@altora/domain`.
 
 ## Passo 4 — Testes
 
-```
-packages/domain/src/
-├── metrics/
-├── liquidity/
-├── portfolio/
-├── snapshot/
-├── simulation/
-└── __tests__/
-    ├── golden.test.ts       # 10 fixtures → expected
-    ├── invariants.test.ts   # INV-01 a INV-10
-    └── fixtures/            # cópia dos JSON
-```
+**Feito** — `src/__tests__/golden.test.ts` (01–10) e `invariants.test.ts` (INV-01..10).
 
 ### Golden tests
 
