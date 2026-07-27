@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://altora.dev/schemas/snapshot.json",
+  "title": "Snapshot",
+  "type": "object",
+  "required": ["id", "version", "capturedAt", "tenantId", "entities", "assets", "cash"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string" },
+    "version": { "type": "integer", "minimum": 1 },
+    "capturedAt": { "type": "string", "format": "date-time" },
+    "tenantId": { "type": "string" },
+    "entities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "type"],
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "type": { "type": "string", "enum": ["holding", "spe", "pessoa"] }
+        }
+      }
+    },
+    "assets": {
+      "type": "array",
+      "items": { "$ref": "asset.schema.json" }
+    },
+    "cash": { "$ref": "money.schema.json" }
+  }
+}

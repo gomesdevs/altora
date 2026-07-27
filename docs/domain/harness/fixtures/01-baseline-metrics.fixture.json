@@ -1,0 +1,94 @@
+{
+  "id": "01-baseline-metrics",
+  "type": "baseline",
+  "description": "Métricas consolidadas do portfólio Silva FO sem premissas de stress.",
+  "calculation_notes": "Renda mensal: 8500+3375+2750=14625. Yield anual: 175500/3850000=0.0456. Liquidez 30d: caixa 200k + FII 450k=650k. Liquidez 180d: + imóvel 2100k=2750k. Liquidez 365d: + PE 800k=3550k. Cash flow = caixa inicial + renda acumulada no horizonte.",
+  "input": {
+    "snapshot": {
+      "id": "snap-silva-fo-baseline-v1",
+      "version": 1,
+      "capturedAt": "2025-07-27T12:00:00Z",
+      "tenantId": "tenant-silva-fo-001",
+      "entities": [
+        { "id": "entity-holding-silva", "name": "Holding Silva Ltda.", "type": "holding" },
+        { "id": "entity-spe-jardins", "name": "SPE Jardins Imóveis", "type": "spe" }
+      ],
+      "assets": [
+        {
+          "id": "asset-imovel-jardins",
+          "entityId": "entity-spe-jardins",
+          "type": "imovel",
+          "name": "Apartamento Jardins SP",
+          "region": "SP",
+          "valuation": { "amount": { "amount": 2100000, "currency": "BRL" }, "method": "laudo", "asOf": "2025-03-15", "source": "Avaliador XYZ Ltda." },
+          "monthlyIncome": { "amount": 8500, "currency": "BRL" },
+          "vacancyRate": 0,
+          "liquidityDays": 180
+        },
+        {
+          "id": "asset-fii-knri11",
+          "entityId": "entity-holding-silva",
+          "type": "fii",
+          "name": "KNRI11",
+          "region": "SP",
+          "issuer": "Kinea",
+          "valuation": { "amount": { "amount": 450000, "currency": "BRL" }, "method": "market", "asOf": "2025-07-26", "source": "B3" },
+          "monthlyIncome": { "amount": 3375, "currency": "BRL" },
+          "liquidityDays": 5
+        },
+        {
+          "id": "asset-cri-mrv",
+          "entityId": "entity-holding-silva",
+          "type": "cri",
+          "name": "CRI MRV 2028",
+          "region": "BR",
+          "issuer": "MRV",
+          "valuation": { "amount": { "amount": 300000, "currency": "BRL" }, "method": "market", "asOf": "2025-07-26", "source": "Emissor" },
+          "monthlyIncome": { "amount": 2750, "currency": "BRL" },
+          "indexer": "IPCA+6%",
+          "maturityDate": "2028-06-30",
+          "liquidityDays": 90
+        },
+        {
+          "id": "asset-pe-vc-brasil",
+          "entityId": "entity-holding-silva",
+          "type": "pe",
+          "name": "Fundo VC Brasil",
+          "region": "BR",
+          "issuer": "VC Brasil Gestora",
+          "valuation": { "amount": { "amount": 800000, "currency": "BRL" }, "method": "nav", "asOf": "2025-04-30", "source": "Administrador — NAV com defasagem 90d" },
+          "commitment": { "amount": 1000000, "currency": "BRL" },
+          "navLagDays": 90,
+          "lockUpDays": 365,
+          "liquidityDays": 365
+        }
+      ],
+      "cash": { "amount": 200000, "currency": "BRL" }
+    },
+    "premises": {}
+  },
+  "expected": {
+    "cashFlow": {
+      "30d": { "amount": 214625, "currency": "BRL" },
+      "90d": { "amount": 243875, "currency": "BRL" },
+      "180d": { "amount": 287750, "currency": "BRL" },
+      "365d": { "amount": 375500, "currency": "BRL" }
+    },
+    "yield": { "before": 0.0456, "after": 0.0456 },
+    "concentration": {
+      "byClass": { "real_estate": 0.6623, "fixed_income": 0.0779, "private_equity": 0.2078, "cash": 0.052 },
+      "byRegion": { "SP": 0.6623, "BR": 0.2857 }
+    },
+    "structuralLiquidity": {
+      "30d": { "amount": 650000, "currency": "BRL" },
+      "90d": { "amount": 650000, "currency": "BRL" },
+      "180d": { "amount": 2750000, "currency": "BRL" },
+      "365d": { "amount": 3550000, "currency": "BRL" }
+    },
+    "netWorth": { "amount": 3850000, "currency": "BRL" },
+    "disclaimer": "Cenário hipotético para modelagem patrimonial. Não constitui recomendação de investimento.",
+    "confidence": "high"
+  },
+  "tolerance": { "absolute": 100, "relative": 0.001 },
+  "invariants": ["INV-02", "INV-04", "INV-10"]
+}

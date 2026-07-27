@@ -1,0 +1,74 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://altora.dev/schemas/simulation-result.json",
+  "title": "SimulationResult",
+  "type": "object",
+  "required": ["cashFlow", "yield", "concentration", "structuralLiquidity", "disclaimer"],
+  "additionalProperties": false,
+  "properties": {
+    "cashFlow": {
+      "type": "object",
+      "required": ["30d", "90d", "180d", "365d"],
+      "properties": {
+        "30d": { "$ref": "money.schema.json" },
+        "90d": { "$ref": "money.schema.json" },
+        "180d": { "$ref": "money.schema.json" },
+        "365d": { "$ref": "money.schema.json" }
+      }
+    },
+    "yield": {
+      "type": "object",
+      "required": ["before"],
+      "properties": {
+        "before": { "type": "number" },
+        "after": {
+          "oneOf": [
+            { "type": "number" },
+            {
+              "type": "object",
+              "required": ["min", "max", "confidence"],
+              "properties": {
+                "min": { "type": "number" },
+                "max": { "type": "number" },
+                "confidence": { "type": "string", "enum": ["high", "medium", "low"] }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "concentration": {
+      "type": "object",
+      "properties": {
+        "byClass": {
+          "type": "object",
+          "additionalProperties": { "type": "number", "minimum": 0, "maximum": 1 }
+        },
+        "byRegion": {
+          "type": "object",
+          "additionalProperties": { "type": "number", "minimum": 0, "maximum": 1 }
+        },
+        "byIssuer": {
+          "type": "object",
+          "additionalProperties": { "type": "number", "minimum": 0, "maximum": 1 }
+        }
+      }
+    },
+    "structuralLiquidity": {
+      "type": "object",
+      "required": ["30d", "90d", "180d", "365d"],
+      "properties": {
+        "30d": { "$ref": "money.schema.json" },
+        "90d": { "$ref": "money.schema.json" },
+        "180d": { "$ref": "money.schema.json" },
+        "365d": { "$ref": "money.schema.json" }
+      }
+    },
+    "netWorth": { "$ref": "money.schema.json" },
+    "disclaimer": { "type": "string", "minLength": 10 },
+    "confidence": {
+      "type": "string",
+      "enum": ["high", "medium", "low"]
+    }
+  }
+}

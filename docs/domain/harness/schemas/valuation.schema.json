@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://altora.dev/schemas/valuation.json",
+  "title": "Valuation",
+  "type": "object",
+  "required": ["amount", "method", "asOf", "source"],
+  "additionalProperties": false,
+  "properties": {
+    "amount": { "$ref": "money.schema.json" },
+    "method": {
+      "type": "string",
+      "enum": ["market", "comparative", "income", "nav", "judgment", "laudo"]
+    },
+    "asOf": {
+      "type": "string",
+      "format": "date"
+    },
+    "source": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

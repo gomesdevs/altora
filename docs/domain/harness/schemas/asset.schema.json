@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://altora.dev/schemas/asset.json",
+  "title": "Asset",
+  "type": "object",
+  "required": ["id", "entityId", "type", "name", "valuation"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string" },
+    "entityId": { "type": "string" },
+    "type": {
+      "type": "string",
+      "enum": ["imovel", "fii", "cri", "pe", "participacao", "credito_tokenizado", "cash"]
+    },
+    "name": { "type": "string" },
+    "valuation": { "$ref": "valuation.schema.json" },
+    "region": { "type": "string" },
+    "issuer": { "type": "string" },
+    "monthlyIncome": { "$ref": "money.schema.json" },
+    "vacancyRate": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "liquidityDays": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Prazo estimado para liquidação sem fire sale"
+    },
+    "lockUpDays": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "indexer": { "type": "string" },
+    "maturityDate": { "type": "string", "format": "date" },
+    "commitment": { "$ref": "money.schema.json" },
+    "navLagDays": { "type": "integer", "minimum": 0 }
+  }
+}

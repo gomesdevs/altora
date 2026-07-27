@@ -1,0 +1,56 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://altora.dev/schemas/fixture.json",
+  "title": "DomainHarnessFixture",
+  "type": "object",
+  "required": ["id", "type", "description", "input", "expected", "tolerance", "invariants"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string" },
+    "type": {
+      "type": "string",
+      "enum": ["baseline", "realocacao", "stress_renda", "stress_liquidez", "stress_macro", "sensibilidade"]
+    },
+    "description": { "type": "string" },
+    "calculation_notes": { "type": "string" },
+    "input": {
+      "type": "object",
+      "required": ["snapshot", "premises"],
+      "properties": {
+        "snapshot": { "$ref": "snapshot.schema.json" },
+        "premises": { "$ref": "premises.schema.json" },
+        "scenario": {
+          "type": "object",
+          "properties": {
+            "variants": {
+              "type": "array",
+              "items": { "$ref": "premises.schema.json" },
+              "minItems": 2,
+              "maxItems": 3
+            }
+          }
+        }
+      }
+    },
+    "expected": { "$ref": "simulation-result.schema.json" },
+    "expectedVariants": {
+      "type": "array",
+      "items": { "$ref": "simulation-result.schema.json" },
+      "minItems": 2,
+      "maxItems": 3
+    },
+    "tolerance": {
+      "type": "object",
+      "required": ["absolute", "relative"],
+      "properties": {
+        "absolute": { "type": "number", "minimum": 0 },
+        "relative": { "type": "number", "minimum": 0 }
+      }
+    },
+    "invariants": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1
+    }
+  }
+}

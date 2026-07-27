@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://altora.dev/schemas/premises.json",
+  "title": "Premises",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "vacancia_percentual": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "inadimplencia_percentual": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "selic_delta_pp": {
+      "type": "number",
+      "description": "Variação da Selic em pontos percentuais"
+    },
+    "fii_shock_pct": {
+      "type": "number",
+      "description": "Choque percentual no valuation de FIIs (ex: -20)"
+    },
+    "liquidation_days": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "capital_call": { "$ref": "money.schema.json" },
+    "tax_rate_capital_gains": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "sell_asset_ids": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "reallocate_to": {
+      "type": "string",
+      "enum": ["cash", "cri", "fii"]
+    },
+    "sensitivity": {
+      "type": "string",
+      "enum": ["pessimista", "base", "otimista"]
+    }
+  }
+}
