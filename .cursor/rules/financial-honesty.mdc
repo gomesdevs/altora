@@ -1,0 +1,26 @@
+---
+description: Honestidade financeira — intervalos e disclaimers em simulações
+alwaysApply: true
+---
+
+# Financial honesty
+
+Não vender precisão falsa em projeções patrimoniais.
+
+## Confiança por ativo
+
+| Ativo | Nível | Output |
+|-------|-------|--------|
+| FII | Alta | Valor + sensibilidade |
+| Imóvel | Média | Intervalo + premissa de vacância |
+| PE | Baixa | Faixa ampla + disclaimer |
+| Participação societária | Baixa | Faixa + disclaimer |
+
+## Regras
+
+- Cenários são hipotéticos — linguagem de "modelagem", não "recomendação"
+- Usuário define premissas; sistema não sugere alocação
+- Relatórios e UI de what-if exibem disclaimers quando aplicável
+- Nunca retornar número pontual para ativos de confiança baixa
+
+Ver [docs/04-what-if.md](../../docs/04-what-if.md#honestidade-epistemológica) e [INV-06](../../docs/domain/harness/invariants.md#inv-06--confiança-epistêmica).

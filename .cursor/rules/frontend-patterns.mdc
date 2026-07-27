@@ -1,0 +1,28 @@
+---
+description: Padrões frontend Next.js — TanStack Query, sem fetch em componente
+globs: apps/web/**
+alwaysApply: false
+---
+
+# Frontend patterns
+
+`apps/web` é camada de apresentação. Sem regras de domínio patrimonial.
+
+## Regras
+
+- Server state via TanStack Query (não useEffect + fetch)
+- Forms com React Hook Form + Zod (schemas de `packages/domain`)
+- Componentes de `packages/ui` quando disponíveis
+- RBAC na UI: ocultar ações não permitidas
+
+## Exemplo
+
+```typescript
+// ❌ BAD
+useEffect(() => { fetch('/api/assets').then(...) }, []);
+
+// ✅ GOOD
+const { data } = useQuery({ queryKey: ['assets', tenantId], queryFn: fetchAssets });
+```
+
+Ver [apps/web/AGENTS.md](../../apps/web/AGENTS.md).

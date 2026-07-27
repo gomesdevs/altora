@@ -1,0 +1,13 @@
+{
+  "install": "pnpm install && docker compose up -d postgres redis && pnpm db:migrate && pnpm db:seed",
+  "terminals": [
+    {
+      "name": "dev",
+      "command": "pnpm dev"
+    },
+    {
+      "name": "worker",
+      "command": "pnpm --filter worker dev"
+    }
+  ]
+}

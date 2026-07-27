@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "hooks": {
+    "beforeReadFile": [
+      {
+        "command": ".cursor/hooks/block-secrets.sh"
+      }
+    ],
+    "beforeShellExecution": [
+      {
+        "command": ".cursor/hooks/guard-destructive-git.sh",
+        "matcher": "git ",
+        "failClosed": true
+      }
+    ],
+    "afterFileEdit": [
+      {
+        "command": ".cursor/hooks/post-edit-verify.sh"
+      }
+    ],
+    "stop": [
+      {
+        "command": ".cursor/hooks/session-verify.sh"
+      }
+    ]
+  }
+}

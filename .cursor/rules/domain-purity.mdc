@@ -1,0 +1,30 @@
+---
+description: Domínio puro — sem frameworks em packages/domain
+globs: packages/domain/**
+alwaysApply: false
+---
+
+# Domain purity
+
+`packages/domain` contém tipos e regras patrimoniais. Código puro, sem dependências de framework.
+
+## Regras
+
+- Sem imports de NestJS, React, Prisma, axios
+- Funções puras e testáveis
+- Schemas Zod exportados para front e back
+- Tipos canônicos: Asset, Portfolio, Snapshot, Scenario
+
+## Exemplo
+
+```typescript
+// ❌ BAD
+import { Injectable } from '@nestjs/common';
+
+// ✅ GOOD
+export function calculateYield(asset: Asset): Decimal {
+  return asset.cashFlows.annual / asset.valuation.amount;
+}
+```
+
+Ver [packages/domain/AGENTS.md](../../packages/domain/AGENTS.md).

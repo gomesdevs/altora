@@ -1,0 +1,25 @@
+---
+description: Motor What-If — snapshot imutável, sem cálculo no frontend
+globs: apps/what-if/**,apps/api/**/scenario*,apps/api/**/what-if*
+alwaysApply: false
+---
+
+# What-If engine
+
+Simulação patrimonial segue fluxo fixo: snapshot → motor → persistência.
+
+## Regras
+
+- Snapshot é imutável após criação
+- Premissas vivem no cenário, não no snapshot
+- Motor em `apps/what-if` importa apenas `packages/domain`
+- Frontend exibe resultados; nunca calcula simulação
+- Outputs incluem confiança epistemológica por tipo de ativo
+
+## Fluxo
+
+```
+API monta snapshot → motor simula → API persiste resultado → web exibe
+```
+
+Ver [ADR-003](../../docs/adr/003-what-if-snapshot-architecture.md) e [docs/04-what-if.md](../../docs/04-what-if.md).

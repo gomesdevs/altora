@@ -1,0 +1,28 @@
+---
+description: Multi-tenant — tenant_id obrigatório em API e banco
+globs: apps/api/**,packages/db/**
+alwaysApply: false
+---
+
+# Multi-tenant
+
+Toda operação de leitura ou escrita de dados patrimoniais deve filtrar por `tenant_id`.
+
+## Regras
+
+- Repositories e queries Prisma/Drizzle: `where: { tenantId }` sempre
+- Guards NestJS validam tenant do JWT antes do handler
+- Nunca retornar dados de outro tenant, mesmo em erros
+- RLS no Postgres como segunda linha de defesa
+
+## Exemplo
+
+```typescript
+// ❌ BAD
+return this.prisma.asset.findMany({ where: { id } });
+
+// ✅ GOOD
+return this.prisma.asset.findMany({ where: { id, tenantId } });
+```
+
+Ver [ADR-002](../../docs/adr/002-multi-tenant-row-level-security.md).
