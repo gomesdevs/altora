@@ -26,6 +26,17 @@ export default function HomePage() {
         >
           Abrir dashboard patrimonial
         </Link>
+        {" · "}
+        <Link
+          href="/what-if"
+          style={{
+            color: "inherit",
+            borderBottom: "1px solid currentColor",
+            textDecoration: "none",
+          }}
+        >
+          Modelar cenário what-if
+        </Link>
       </p>
     </main>
   );

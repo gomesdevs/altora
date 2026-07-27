@@ -28,6 +28,10 @@ export default function DashboardPage() {
         </Link>
         <span style={{ opacity: 0.4 }}> / </span>
         <span>Dashboard</span>
+        <span style={{ opacity: 0.4 }}> · </span>
+        <Link href="/what-if" style={{ color: "inherit", opacity: 0.7 }}>
+          What-If
+        </Link>
       </nav>
 
       <header style={{ marginBottom: "2.5rem" }}>
