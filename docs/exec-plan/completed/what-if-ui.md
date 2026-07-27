@@ -1,7 +1,8 @@
 # Feature: What-If UI — simular cenário no browser
 
-**Status:** active  
+**Status:** completed  
 **Criado em:** 2026-07-27  
+**Concluído em:** 2026-07-27  
 **ADR relacionados:** [ADR-003](../adr/003-what-if-snapshot-architecture.md), [ADR-001](../adr/001-monorepo-pnpm-turborepo.md)
 
 ## Objetivo
@@ -16,11 +17,11 @@ Página `/what-if` no Next.js para o usuário definir premissas de cenário e ex
 
 ### Incluído
 
-- [ ] Página `/what-if` com shadcn/ui + Tailwind
-- [ ] Formulário de premissas (vacância, capital call, selic, FII, liquidação, sensibilidade…) via React Hook Form + Zod (`PremisesSchema`)
-- [ ] `useMutation` TanStack Query → `POST /scenarios/simulate`
-- [ ] Exibição: caixa 30/90/180/365, yield, concentração, disclaimer (INV-06)
-- [ ] Testes de contrato mínimos (DTO da API, sem `simulate` no client)
+- [x] Página `/what-if` com shadcn/ui + Tailwind
+- [x] Formulário de premissas (vacância, capital call, selic, FII, liquidação, sensibilidade…) via React Hook Form + Zod (`PremisesSchema`)
+- [x] `useMutation` TanStack Query → `POST /scenarios/simulate`
+- [x] Exibição: caixa 30/90/180/365, yield, concentração, disclaimer (INV-06)
+- [x] Testes de contrato mínimos (DTO da API, sem `simulate` no client)
 
 ### Fora de escopo
 
@@ -30,13 +31,13 @@ Página `/what-if` no Next.js para o usuário definir premissas de cenário e ex
 
 ## Critérios de aceite
 
-- [ ] Submit envia `premises` à API; UI não importa `simulate` de `@altora/domain`
-- [ ] Resultado mostra `cashFlow` nos quatro horizontes, yield antes/depois, `concentration.byClass`
-- [ ] Disclaimer sempre visível quando há resultado; faixa de yield quando `confidence === low`
-- [ ] `pnpm --filter web test` e `typecheck` verdes
-- [ ] Link de navegação home/dashboard → `/what-if`
+- [x] Submit envia `premises` à API; UI não importa `simulate` de `@altora/domain`
+- [x] Resultado mostra `cashFlow` nos quatro horizontes, yield antes/depois, `concentration.byClass`
+- [x] Disclaimer sempre visível quando há resultado; faixa de yield quando `confidence === low`
+- [x] `pnpm --filter web test` e `typecheck` verdes
+- [x] Link de navegação home/dashboard → `/what-if`
 
-## Arquivos afetados (previstos)
+## Arquivos afetados
 
 | Área | Arquivos/pacotes |
 |------|------------------|
@@ -50,11 +51,13 @@ Página `/what-if` no Next.js para o usuário definir premissas de cenário e ex
 
 ## Definition of Done
 
-- [ ] Critérios de aceite verificados
-- [ ] Testes passam
-- [ ] Spec movida para `completed/`
+- [x] Critérios de aceite verificados
+- [x] Testes passam
+- [x] Spec movida para `completed/`
 
 ## Notas de implementação
 
 - Tenant demo: `a1111111-1111-4111-8111-111111111111`
 - Env: `NEXT_PUBLIC_API_URL`, `NEXT_PUBLIC_TENANT_ID`
+- `PremisesSchema` valida o payload montado no submit; motor `simulate` só na API
+- Componentes shadcn: Button, Input, Label, Card, Alert
