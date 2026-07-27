@@ -4,25 +4,16 @@ Checklist para quando o monorepo (`package.json`, `pnpm-workspace.yaml`) existir
 
 ## Pré-requisitos
 
-- [ ] Bootstrap do monorepo ([ADR-001](../../adr/001-monorepo-pnpm-turborepo.md))
-- [ ] `packages/domain` criado
-- [ ] Vitest configurado no monorepo
+- [x] Bootstrap do monorepo ([ADR-001](../../adr/001-monorepo-pnpm-turborepo.md))
+- [x] `packages/domain` criado
+- [x] Vitest configurado no monorepo
 - [ ] (Opcional) `fast-check` para invariantes property-based
 
 ## Passo 1 — Schemas → Zod
 
-Copiar definições de [`schemas/`](schemas/) para `packages/domain/src/schemas/`:
+Schemas Zod já em `packages/domain/src/schemas/` (Money, Asset, Snapshot, Premises, SimulationResult).
 
-```
-packages/domain/src/schemas/
-├── money.ts
-├── asset.ts
-├── snapshot.ts
-├── premises.ts
-└── simulation-result.ts
-```
-
-Gerar tipos com `z.infer<typeof Schema>` — fonte única para front e back.
+Gerar tipos com `z.infer<typeof Schema>` — fonte única para front e back. **Feito no bootstrap.**
 
 ## Passo 2 — Fixtures → código
 

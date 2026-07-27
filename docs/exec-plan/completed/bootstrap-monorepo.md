@@ -1,7 +1,8 @@
 # Feature: Bootstrap do monorepo
 
-**Status:** active  
+**Status:** completed  
 **Criado em:** 2026-07-27  
+**Concluído em:** 2026-07-27  
 **ADR relacionados:** [ADR-001](../../adr/001-monorepo-pnpm-turborepo.md), [ADR-002](../../adr/002-multi-tenant-row-level-security.md), [ADR-004](../../adr/004-domain-harness.md)
 
 ## Objetivo
@@ -16,12 +17,12 @@ Harness e docs de produto estão prontos; apps/packages existem só como `AGENTS
 
 ### Incluído
 
-- [ ] Raiz: `package.json`, `pnpm-workspace.yaml`, `turbo.json`, `.gitignore`, `.npmrc`
-- [ ] `docker-compose.yml` com Postgres e Redis
-- [ ] `packages/typescript-config`, `packages/domain`, `packages/db`, `packages/ui`
-- [ ] Schemas Zod canônicos em `@altora/domain` (a partir do harness)
-- [ ] Stubs tipados de `apps/web`, `apps/api`, `apps/worker`, `apps/what-if`
-- [ ] Scripts raiz: `dev`, `lint`, `typecheck`, `test`, `build`, `db:migrate`, `db:seed`
+- [x] Raiz: `package.json`, `pnpm-workspace.yaml`, `turbo.json`, `.gitignore`, `.npmrc`
+- [x] `docker-compose.yml` com Postgres e Redis
+- [x] `packages/typescript-config`, `packages/domain`, `packages/db`, `packages/ui`
+- [x] Schemas Zod canônicos em `@altora/domain` (a partir do harness)
+- [x] Stubs tipados de `apps/web`, `apps/api`, `apps/worker`, `apps/what-if`
+- [x] Scripts raiz: `dev`, `lint`, `typecheck`, `test`, `build`, `db:migrate`, `db:seed`
 
 ### Fora de escopo
 
@@ -32,12 +33,12 @@ Harness e docs de produto estão prontos; apps/packages existem só como `AGENTS
 
 ## Critérios de aceite
 
-- [ ] `pnpm install` conclui sem erro
-- [ ] `pnpm typecheck` passa em todos os workspaces
-- [ ] `pnpm test` executa testes de `@altora/domain`
-- [ ] Todo schema de tabela patrimonial em `packages/db` inclui `tenantId`
-- [ ] Tipos canônicos exportados de `@altora/domain` (Money, Asset, Snapshot, Premises, SimulationResult)
-- [ ] `docker compose config` válido para postgres e redis
+- [x] `pnpm install` conclui sem erro
+- [x] `pnpm typecheck` passa em todos os workspaces
+- [x] `pnpm test` executa testes de `@altora/domain`
+- [x] Todo schema de tabela patrimonial em `packages/db` inclui `tenantId`
+- [x] Tipos canônicos exportados de `@altora/domain` (Money, Asset, Snapshot, Premises, SimulationResult)
+- [x] `docker compose config` válido para postgres e redis
 
 ## Arquivos afetados (previstos)
 
@@ -58,13 +59,15 @@ Harness e docs de produto estão prontos; apps/packages existem só como `AGENTS
 
 ## Definition of Done
 
-- [ ] Código implementado conforme critérios de aceite
-- [ ] Testes passam (`pnpm test`)
-- [ ] Types compartilhados em `packages/domain`
-- [ ] Documentação atualizada se comportamento mudou
-- [ ] Spec movida para `completed/`
+- [x] Código implementado conforme critérios de aceite
+- [x] Testes passam (`pnpm test`)
+- [x] Types compartilhados em `packages/domain`
+- [x] Documentação atualizada se comportamento mudou
+- [x] Spec movida para `completed/`
 
 ## Notas de implementação
 
 - ORM inicial: Drizzle (type-safe, RLS explícito)
-- Apps começam como stubs tipados; Next/Nest completos evoluem nas próximas specs
+- Apps começam como stubs tipados; Next/Nest com health endpoints
+- Motor what-if é stub que já respeita INV-06 (faixa para PE)
+- Próximo passo natural: implementar métricas + golden fixtures em `@altora/domain`

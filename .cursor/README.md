@@ -46,9 +46,7 @@ chmod +x .cursor/hooks/*.sh
 
 ## Cloud Agent — environment.json
 
-**Status:** template — não funcional até existir `pnpm-workspace.yaml`.
-
-Quando o monorepo for bootstrapped:
+**Status:** ativo — monorepo com `pnpm-workspace.yaml` bootstrapado.
 
 1. `install` roda após checkout (idempotente)
 2. `terminals` inicia `pnpm dev` e worker
