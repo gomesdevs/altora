@@ -2,6 +2,10 @@ import { DomainError } from "../errors.js";
 import type { Snapshot } from "../schemas/snapshot.js";
 import type { Portfolio, SnapshotMeta } from "../schemas/portfolio.js";
 
+function deepClone<T>(value: T): T {
+  return JSON.parse(JSON.stringify(value)) as T;
+}
+
 function deepFreeze<T>(value: T): T {
   if (value !== null && typeof value === "object" && !Object.isFrozen(value)) {
     Object.freeze(value);
@@ -26,7 +30,7 @@ export function createSnapshot(
     capturedAt: metadata.capturedAt ?? new Date().toISOString(),
     tenantId: metadata.tenantId,
     entities: metadata.entities.map((e) => ({ ...e })),
-    assets: portfolio.assets.map((asset) => structuredClone(asset)),
+    assets: deepClone(portfolio.assets),
     cash: { ...portfolio.cash },
   };
 
@@ -35,5 +39,5 @@ export function createSnapshot(
 
 /** Clona snapshot sem congelar — para stress/derivação. */
 export function cloneSnapshot(snapshot: Snapshot): Snapshot {
-  return structuredClone(snapshot);
+  return deepClone(snapshot);
 }
