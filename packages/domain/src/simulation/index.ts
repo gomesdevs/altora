@@ -85,10 +85,6 @@ function formatYieldAfter(
   return formatted;
 }
 
-function baselineMonthly(snapshot: Snapshot): number {
-  return sumMonthlyIncome(snapshot, {}, new Set());
-}
-
 export function simulate(
   snapshot: Snapshot,
   scenario: { premises?: Premises; variants?: Premises[] } | Premises = {},
@@ -117,12 +113,7 @@ export function simulate(
   const netWorthAmount = reportPortfolio.netWorth.amount;
 
   let yieldPoint: number;
-  if (premises.fii_shock_pct != null) {
-    yieldPoint = portfolioYield(
-      baselineMonthly(snapshot),
-      afterPortfolio.netWorth.amount,
-    );
-  } else if (call > 0) {
+  if (call > 0) {
     yieldPoint = yieldBefore;
   } else {
     const monthlyAfter = sumMonthlyIncome(working, premises, new Set());

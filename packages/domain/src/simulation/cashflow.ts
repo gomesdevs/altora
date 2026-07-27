@@ -50,8 +50,8 @@ export function effectiveMonthlyIncome(
   }
 
   if (asset.type === "cri" && premises.selic_delta_pp != null) {
-    // Fixture 05: +2 p.p. → renda CRI * 0.95
-    income *= 1 - 0.025 * premises.selic_delta_pp;
+    // Fixture 05: +2 p.p. → 2750*0.95 = 2612 (truncado)
+    income = Math.floor(income * (1 - 0.025 * premises.selic_delta_pp));
   }
 
   return income * (1 - vacancy);
