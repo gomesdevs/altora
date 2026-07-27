@@ -2,7 +2,7 @@
   "id": "02-realocacao-imovel-sp",
   "type": "realocacao",
   "description": "Venda do imóvel Jardins com ganho de capital tributado e realocação em caixa.",
-  "calculation_notes": "Venda R$2,1M. Custo base implícito R$1,2M. Ganho R$900k. IR 15%=R$135k. Líquido R$1,965M. Caixa: 200k+1,965M=2,165M. PL: 3,85M-2,1M+1,965M=3,715M. Yield pós: (3375+2750)*12/3,715M=0.0198.",
+  "calculation_notes": "Venda R$2,1M. Custo base implícito R$1,2M. Ganho R$900k. IR 15%=R$135k. Líquido R$1,965M. Caixa: 200k+1,965M=2,165M. PL: 3,715M. Cash flow = caixa pós-venda + renda remanescente (FII+CRI=6125/mês). Yield pós: 73500/3715000=0.0198 → faixa medium ±5%.",
   "input": {
     "snapshot": {
       "id": "snap-silva-fo-baseline-v1",
@@ -132,27 +132,27 @@
   "expected": {
     "cashFlow": {
       "30d": {
-        "amount": 2165000,
+        "amount": 2171125,
         "currency": "BRL"
       },
       "90d": {
-        "amount": 2208875,
+        "amount": 2183375,
         "currency": "BRL"
       },
       "180d": {
-        "amount": 2252750,
+        "amount": 2201750,
         "currency": "BRL"
       },
       "365d": {
-        "amount": 2337500,
+        "amount": 2238500,
         "currency": "BRL"
       }
     },
     "yield": {
       "before": 0.0456,
       "after": {
-        "min": 0.0185,
-        "max": 0.021,
+        "min": 0.0188,
+        "max": 0.0208,
         "confidence": "medium"
       }
     },

@@ -161,14 +161,18 @@
     },
     "yield": {
       "before": 0.0456,
-      "after": 0.0456
+      "after": {
+        "min": 0.0433,
+        "max": 0.0479,
+        "confidence": "medium"
+      }
     },
     "concentration": {
       "byClass": {
         "real_estate": 0.6623,
         "fixed_income": 0.0779,
         "private_equity": 0.2078,
-        "cash": 0.052
+        "cash": 0.0519
       }
     },
     "structuralLiquidity": {
@@ -200,58 +204,58 @@
     {
       "cashFlow": {
         "30d": {
-          "amount": 214625,
+          "amount": 213350,
           "currency": "BRL"
         },
         "90d": {
-          "amount": 243875,
+          "amount": 240050,
           "currency": "BRL"
         },
         "180d": {
-          "amount": 287750,
+          "amount": 280100,
           "currency": "BRL"
         },
         "365d": {
-          "amount": 375500,
+          "amount": 360200,
           "currency": "BRL"
         }
       },
       "yield": {
         "before": 0.0456,
         "after": {
-          "min": 0.038,
-          "max": 0.041,
+          "min": 0.04,
+          "max": 0.0442,
           "confidence": "medium"
         }
       },
       "concentration": {
         "byClass": {
-          "real_estate": 0.6623,
-          "fixed_income": 0.0779,
-          "private_equity": 0.2078,
-          "cash": 0.052
+          "real_estate": 0.6583,
+          "fixed_income": 0.0788,
+          "private_equity": 0.2102,
+          "cash": 0.0526
         }
       },
       "structuralLiquidity": {
         "30d": {
-          "amount": 650000,
+          "amount": 605000,
           "currency": "BRL"
         },
         "90d": {
-          "amount": 650000,
+          "amount": 605000,
           "currency": "BRL"
         },
         "180d": {
-          "amount": 2750000,
+          "amount": 2705000,
           "currency": "BRL"
         },
         "365d": {
-          "amount": 3550000,
+          "amount": 3505000,
           "currency": "BRL"
         }
       },
       "netWorth": {
-        "amount": 3680000,
+        "amount": 3805000,
         "currency": "BRL"
       },
       "disclaimer": "Cenário hipotético para modelagem patrimonial. Não constitui recomendação de investimento.",
@@ -278,14 +282,18 @@
       },
       "yield": {
         "before": 0.0456,
-        "after": 0.0456
+        "after": {
+          "min": 0.0433,
+          "max": 0.0479,
+          "confidence": "medium"
+        }
       },
       "concentration": {
         "byClass": {
           "real_estate": 0.6623,
           "fixed_income": 0.0779,
           "private_equity": 0.2078,
-          "cash": 0.052
+          "cash": 0.0519
         }
       },
       "structuralLiquidity": {
@@ -335,39 +343,39 @@
       "yield": {
         "before": 0.0456,
         "after": {
-          "min": 0.048,
-          "max": 0.052,
+          "min": 0.043,
+          "max": 0.0476,
           "confidence": "medium"
         }
       },
       "concentration": {
         "byClass": {
-          "real_estate": 0.6623,
-          "fixed_income": 0.0779,
-          "private_equity": 0.2078,
-          "cash": 0.052
+          "real_estate": 0.6643,
+          "fixed_income": 0.0775,
+          "private_equity": 0.2066,
+          "cash": 0.0516
         }
       },
       "structuralLiquidity": {
         "30d": {
-          "amount": 650000,
+          "amount": 672500,
           "currency": "BRL"
         },
         "90d": {
-          "amount": 650000,
+          "amount": 672500,
           "currency": "BRL"
         },
         "180d": {
-          "amount": 2750000,
+          "amount": 2772500,
           "currency": "BRL"
         },
         "365d": {
-          "amount": 3550000,
+          "amount": 3572500,
           "currency": "BRL"
         }
       },
       "netWorth": {
-        "amount": 3980000,
+        "amount": 3872500,
         "currency": "BRL"
       },
       "disclaimer": "Cenário hipotético para modelagem patrimonial. Não constitui recomendação de investimento.",

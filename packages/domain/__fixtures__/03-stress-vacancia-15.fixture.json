@@ -147,7 +147,7 @@
       "before": 0.0456,
       "after": {
         "min": 0.0395,
-        "max": 0.0425,
+        "max": 0.0437,
         "confidence": "medium"
       }
     },
@@ -156,7 +156,7 @@
         "real_estate": 0.6623,
         "fixed_income": 0.0779,
         "private_equity": 0.2078,
-        "cash": 0.052
+        "cash": 0.0519
       }
     },
     "structuralLiquidity": {

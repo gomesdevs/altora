@@ -150,15 +150,15 @@
         "real_estate": 0.6623,
         "fixed_income": 0.0779,
         "private_equity": 0.2078,
-        "cash": 0.052
+        "cash": 0.0519
       },
       "byRegion": {
         "SP": 0.6623,
         "BR": 0.2857
       },
       "byIssuer": {
-        "MRV": 0.0779,
         "Kinea": 0.1169,
+        "MRV": 0.0779,
         "VC Brasil Gestora": 0.2078
       }
     },

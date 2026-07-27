@@ -149,8 +149,8 @@
     "yield": {
       "before": 0.0456,
       "after": {
-        "min": 0.044,
-        "max": 0.0465,
+        "min": 0.0388,
+        "max": 0.0524,
         "confidence": "low"
       }
     },
@@ -159,7 +159,7 @@
         "real_estate": 0.6623,
         "fixed_income": 0.0779,
         "private_equity": 0.2078,
-        "cash": 0.052
+        "cash": 0.0519
       }
     },
     "structuralLiquidity": {

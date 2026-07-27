@@ -2,7 +2,7 @@
   "id": "07-liquidez-baixa-pe-heavy",
   "type": "stress_liquidez",
   "description": "Portfólio com peso elevado em PE — baixa liquidez estrutural em 30 dias.",
-  "calculation_notes": "PL: 1M+450k+300k+2M+100k=3,85M. Liquidez 30d: caixa 100k + FII 450k=550k. PE 2M ilíquido em 30d.",
+  "calculation_notes": "PL: 1M+450k+300k+2M+100k=3,85M. Renda mensal: 6000+3375+2750=12125. Yield: 145500/3850000=0.0378. Liquidez 30d: caixa 100k + FII 450k=550k. PE 2M ilíquido em 30d. Cash flow = caixa + renda*meses.",
   "input": {
     "snapshot": {
       "id": "snap-silva-fo-pe-heavy-v1",
@@ -125,27 +125,27 @@
   "expected": {
     "cashFlow": {
       "30d": {
-        "amount": 111250,
+        "amount": 112125,
         "currency": "BRL"
       },
       "90d": {
-        "amount": 133750,
+        "amount": 136375,
         "currency": "BRL"
       },
       "180d": {
-        "amount": 178750,
+        "amount": 172750,
         "currency": "BRL"
       },
       "365d": {
-        "amount": 256000,
+        "amount": 245500,
         "currency": "BRL"
       }
     },
     "yield": {
-      "before": 0.0382,
+      "before": 0.0378,
       "after": {
-        "min": 0.034,
-        "max": 0.041,
+        "min": 0.0321,
+        "max": 0.0435,
         "confidence": "low"
       }
     },
