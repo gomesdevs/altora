@@ -29,3 +29,9 @@ export {
   type ConfidenceLevel,
   type RangeWithConfidence,
 } from "./simulation-result.js";
+export {
+  PortfolioSchema,
+  type Portfolio,
+  type SnapshotMeta,
+} from "./portfolio.js";
+export { ScenarioSchema, type Scenario } from "./scenario.js";
