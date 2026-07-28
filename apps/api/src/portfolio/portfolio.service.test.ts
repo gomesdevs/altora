@@ -2,14 +2,16 @@ import { describe, expect, it } from "vitest";
 import { UnauthorizedException } from "@nestjs/common";
 import { SILVA_FO_TENANT_ID } from "@altora/domain";
 
+import { signDevSession } from "../auth";
+import { TenantGuard } from "../tenant/tenant.guard";
 import { PortfolioService } from "./portfolio.service";
 import { InMemoryPortfolioRepository } from "./portfolio.repository";
-import { TenantGuard, TENANT_HEADER } from "../tenant/tenant.guard";
 
 function mockContext(headers: Record<string, string | undefined>) {
   const request = {
     header: (name: string) => headers[name.toLowerCase()],
     tenantId: undefined as string | undefined,
+    auth: undefined as unknown,
   };
   return {
     switchToHttp: () => ({
@@ -19,19 +21,34 @@ function mockContext(headers: Record<string, string | undefined>) {
   };
 }
 
-describe("TenantGuard", () => {
+describe("TenantGuard (JWT session)", () => {
   const guard = new TenantGuard();
 
-  it("rejeita ausência de x-tenant-id", () => {
+  it("rejeita ausência de Bearer", async () => {
     const ctx = mockContext({});
-    expect(() => guard.canActivate(ctx as never)).toThrow(UnauthorizedException);
+    await expect(guard.canActivate(ctx as never)).rejects.toThrow(
+      UnauthorizedException,
+    );
   });
 
-  it("aceita UUID válido e anexa tenantId", () => {
+  it("ignora x-tenant-id sem Bearer", async () => {
     const ctx = mockContext({
-      [TENANT_HEADER]: SILVA_FO_TENANT_ID,
+      "x-tenant-id": SILVA_FO_TENANT_ID,
     });
-    expect(guard.canActivate(ctx as never)).toBe(true);
+    await expect(guard.canActivate(ctx as never)).rejects.toThrow(
+      UnauthorizedException,
+    );
+  });
+
+  it("aceita JWT dev válido e anexa tenantId", async () => {
+    process.env.AUTH_MODE = "dev";
+    process.env.AUTH_DEV_SECRET = "test-secret";
+    const token = await signDevSession({
+      sub: "user_test",
+      tenantId: SILVA_FO_TENANT_ID,
+    });
+    const ctx = mockContext({ authorization: `Bearer ${token}` });
+    await expect(guard.canActivate(ctx as never)).resolves.toBe(true);
     expect(ctx.request.tenantId).toBe(SILVA_FO_TENANT_ID);
   });
 });

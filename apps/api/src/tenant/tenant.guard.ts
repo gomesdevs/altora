@@ -7,25 +7,39 @@ import {
 } from "@nestjs/common";
 import type { Request } from "express";
 
+import {
+  extractBearerToken,
+  verifySessionToken,
+  type SessionClaims,
+} from "../auth";
+
+/** @deprecated Preferir Authorization Bearer (ADR-005). Mantido só para mensagens de migração. */
 export const TENANT_HEADER = "x-tenant-id";
 
-const UUID_RE =
-  /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-
-type TenantRequest = Request & { tenantId?: string };
+type TenantRequest = Request & {
+  tenantId?: string;
+  auth?: SessionClaims;
+};
 
 @Injectable()
 export class TenantGuard implements CanActivate {
-  canActivate(context: ExecutionContext): boolean {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest<TenantRequest>();
-    const raw = request.header(TENANT_HEADER);
-    if (!raw || !UUID_RE.test(raw)) {
+    const token = extractBearerToken(request.header("authorization"));
+    if (!token) {
       throw new UnauthorizedException(
-        `Missing or invalid ${TENANT_HEADER} header`,
+        "Missing Authorization Bearer session token",
       );
     }
-    request.tenantId = raw;
-    return true;
+
+    try {
+      const claims = await verifySessionToken(token);
+      request.tenantId = claims.tenant_id;
+      request.auth = claims;
+      return true;
+    } catch {
+      throw new UnauthorizedException("Invalid or expired session");
+    }
   }
 }
 

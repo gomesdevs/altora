@@ -4,13 +4,21 @@ import type { INestApplication } from "@nestjs/common";
 import { SILVA_FO_TENANT_ID } from "@altora/domain";
 
 import { AppModule } from "../app.module";
-import { TENANT_HEADER } from "../tenant/tenant.guard";
+import { signDevSession } from "../auth";
 
 describe("e2e POST /scenarios/simulate", () => {
   let app: INestApplication;
   let baseUrl: string;
+  let bearer: string;
 
   beforeAll(async () => {
+    process.env.AUTH_MODE = "dev";
+    process.env.AUTH_DEV_SECRET = "e2e-secret";
+    bearer = await signDevSession({
+      sub: "user_e2e",
+      tenantId: SILVA_FO_TENANT_ID,
+    });
+
     app = await NestFactory.create(AppModule, {
       logger: ["error", "warn"],
     });
@@ -32,7 +40,7 @@ describe("e2e POST /scenarios/simulate", () => {
       method: "POST",
       headers: {
         "content-type": "application/json",
-        [TENANT_HEADER]: SILVA_FO_TENANT_ID,
+        authorization: `Bearer ${bearer}`,
       },
       body: JSON.stringify({
         name: "e2e vacancia",
@@ -56,14 +64,14 @@ describe("e2e POST /scenarios/simulate", () => {
     expect(body.result.disclaimer.length).toBeGreaterThan(10);
 
     const getRes = await fetch(`${baseUrl}/scenarios/${body.id}`, {
-      headers: { [TENANT_HEADER]: SILVA_FO_TENANT_ID },
+      headers: { authorization: `Bearer ${bearer}` },
     });
     expect(getRes.status).toBe(200);
     const loaded = (await getRes.json()) as { id: string };
     expect(loaded.id).toBe(body.id);
   });
 
-  it("rejeita sem x-tenant-id", async () => {
+  it("rejeita sem Authorization Bearer", async () => {
     const res = await fetch(`${baseUrl}/scenarios/simulate`, {
       method: "POST",
       headers: { "content-type": "application/json" },
