@@ -48,6 +48,17 @@ export default function HomePage() {
         >
           What-If
         </Link>
+        {" · "}
+        <Link
+          href="/assets/new"
+          style={{
+            color: "inherit",
+            borderBottom: "1px solid currentColor",
+            textDecoration: "none",
+          }}
+        >
+          Novo ativo
+        </Link>
       </p>
     </main>
   );

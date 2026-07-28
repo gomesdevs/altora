@@ -32,6 +32,10 @@ export default function DashboardPage() {
         <Link href="/what-if" style={{ color: "inherit", opacity: 0.7 }}>
           What-If
         </Link>
+        <span style={{ opacity: 0.4 }}> · </span>
+        <Link href="/assets/new" style={{ color: "inherit", opacity: 0.7 }}>
+          Novo ativo
+        </Link>
       </nav>
 
       <header style={{ marginBottom: "2.5rem" }}>
