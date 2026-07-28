@@ -27,7 +27,10 @@ export default function WhatIfPage() {
         </h1>
         <p className="mt-2 max-w-2xl text-muted-foreground">
           Cenários hipotéticos sobre o portfólio Silva Family Office. Premissas
-          enviadas à API; resultados exibidos sem recálculo no browser.
+          enviadas à API; resultados exibidos sem recálculo no browser.{" "}
+          <Link href="/what-if/compare" className="underline underline-offset-4">
+            Comparar cenários
+          </Link>
         </p>
       </header>
 

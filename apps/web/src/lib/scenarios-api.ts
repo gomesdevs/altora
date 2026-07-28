@@ -49,3 +49,46 @@ export async function simulateScenario(
 
   return res.json() as Promise<SimulateScenarioResponse>;
 }
+
+export async function listScenarios(
+  accessToken: string,
+): Promise<SimulateScenarioResponse[]> {
+  const res = await fetch(`${API_URL}/scenarios`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    cache: "no-store",
+  });
+
+  if (res.status === 401) {
+    throw new Error("Sessão inválida — faça login novamente.");
+  }
+
+  if (!res.ok) {
+    throw new Error(`Falha ao listar cenários (${res.status})`);
+  }
+
+  return res.json() as Promise<SimulateScenarioResponse[]>;
+}
+
+export async function getScenario(
+  accessToken: string,
+  id: string,
+): Promise<SimulateScenarioResponse> {
+  const res = await fetch(`${API_URL}/scenarios/${id}`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    cache: "no-store",
+  });
+
+  if (res.status === 401) {
+    throw new Error("Sessão inválida — faça login novamente.");
+  }
+
+  if (!res.ok) {
+    throw new Error(`Falha ao carregar cenário (${res.status})`);
+  }
+
+  return res.json() as Promise<SimulateScenarioResponse>;
+}
