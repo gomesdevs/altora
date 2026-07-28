@@ -18,14 +18,17 @@ Web: [/dashboard](http://localhost:3000/dashboard) via `NEXT_PUBLIC_API_URL` (de
 
 ### Auth (env)
 
+Copie `.env.example` → `.env` (e para `apps/web/.env` / `apps/api/.env` — Next e Nest não leem o root automaticamente).
+
 | Variável | Uso |
 |----------|-----|
 | `AUTH_MODE` | `dev` (default) ou `clerk` |
-| `AUTH_DEV_SECRET` | Segredo HS256 compartilhado web ↔ api (modo dev) |
+| `AUTH_DEV_SECRET` | Segredo HS256 **igual** em web e api (modo dev) |
 | `CLERK_JWKS_URL` / `CLERK_ISSUER` | Verificação JWT em `AUTH_MODE=clerk` |
 | `NEXT_PUBLIC_API_URL` | Base da API Nest |
+| `DATABASE_URL` | Postgres (Compose em `:5433`) |
 
-Use o **mesmo** `AUTH_DEV_SECRET` em `apps/web` e `apps/api`.
+Nunca commitar `.env`.
 
 ## Documentação
 
