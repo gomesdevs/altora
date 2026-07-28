@@ -12,6 +12,15 @@ export {
   type AssetType,
 } from "./asset.js";
 export {
+  CreateAssetInputSchema,
+  CreateImovelAssetInputSchema,
+  CreateFiiAssetInputSchema,
+  assetFromCreateInput,
+  type CreateAssetInput,
+  type CreateImovelAssetInput,
+  type CreateFiiAssetInput,
+} from "./asset-create.js";
+export {
   SnapshotSchema,
   SnapshotEntitySchema,
   EntityTypeSchema,
