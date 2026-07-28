@@ -69,6 +69,13 @@ describe("e2e assets API", () => {
     const body = (await res.json()) as { id: string; type: string; name: string };
     expect(body.type).toBe("imovel");
     expect(body.name).toBe("E2E Imóvel");
+
+    const portfolioRes = await fetch(`${baseUrl}/portfolio/consolidated`, {
+      headers: { authorization: `Bearer ${bearer}` },
+    });
+    expect(portfolioRes.status).toBe(200);
+    const portfolio = (await portfolioRes.json()) as { assetCount: number };
+    expect(portfolio.assetCount).toBeGreaterThan(4);
   });
 
   it("rejeita sem Bearer", async () => {

@@ -8,6 +8,7 @@ import {
 import { AuditService } from "../audit/audit.service";
 import { InMemoryAuditLogRepository } from "../audit/audit.repository";
 import { InMemoryPortfolioRepository } from "../portfolio/portfolio.repository";
+import { PortfolioService } from "../portfolio/portfolio.service";
 import { InMemoryAssetRepository } from "./asset.repository";
 import { AssetsService } from "./assets.service";
 
@@ -15,9 +16,10 @@ function buildService() {
   const auditRepo = new InMemoryAuditLogRepository();
   const audit = new AuditService(auditRepo);
   const assets = new InMemoryAssetRepository();
-  const portfolios = new InMemoryPortfolioRepository();
-  const service = new AssetsService(assets, portfolios, audit);
-  return { service, audit, portfolios };
+  const portfolios = new InMemoryPortfolioRepository(assets);
+  const portfolioService = new PortfolioService(portfolios);
+  const service = new AssetsService(assets, audit);
+  return { service, audit, portfolioService };
 }
 
 describe("AssetsService", () => {
@@ -88,8 +90,9 @@ describe("AssetsService", () => {
     ).rejects.toThrow(/entityId/i);
   });
 
-  it("sincroniza novo ativo no portfolio in-memory", async () => {
-    const { service, portfolios } = buildService();
+  it("novo ativo aparece no portfolio consolidado (fonte compartilhada)", async () => {
+    const { service, portfolioService } = buildService();
+    const before = await portfolioService.getConsolidated(SILVA_FO_TENANT_ID);
     const created = await service.create(SILVA_FO_TENANT_ID, "user_test", {
       type: "fii",
       entityId: SILVA_FO_ENTITY_HOLDING_ID,
@@ -101,7 +104,9 @@ describe("AssetsService", () => {
       valuationSource: "B3",
       monthlyIncomeAmount: 500,
     });
-    const portfolio = await portfolios.findByTenant(SILVA_FO_TENANT_ID);
-    expect(portfolio?.assets.some((a) => a.id === created.id)).toBe(true);
+    const after = await portfolioService.getConsolidated(SILVA_FO_TENANT_ID);
+    expect(after.assetCount).toBe(before.assetCount + 1);
+    expect(after.netWorth.amount).toBeGreaterThan(before.netWorth.amount);
+    expect(created.name).toBe("Sync FII");
   });
 });
