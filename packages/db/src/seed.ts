@@ -58,27 +58,47 @@ async function main() {
         name: entity.name,
         type: entity.type,
       });
+    } else if (
+      found[0].name !== entity.name ||
+      found[0].type !== entity.type
+    ) {
+      await db
+        .update(entities)
+        .set({ name: entity.name, type: entity.type })
+        .where(eq(entities.id, entity.id));
     }
   }
 
-  // Re-sync assets do canônico (idempotente)
-  await db.delete(assets).where(eq(assets.tenantId, SILVA_FO_TENANT_ID));
-  await db.insert(assets).values(
-    SILVA_FO_ASSETS.map((asset) => ({
+  for (const asset of SILVA_FO_ASSETS) {
+    const payload = {
+      ...asset.domain,
       id: asset.id,
-      tenantId: SILVA_FO_TENANT_ID,
       entityId: asset.entityId,
       type: asset.type,
       name: asset.name,
-      payload: {
-        ...asset.domain,
+    };
+    await db
+      .insert(assets)
+      .values({
         id: asset.id,
+        tenantId: SILVA_FO_TENANT_ID,
         entityId: asset.entityId,
         type: asset.type,
         name: asset.name,
-      },
-    })),
-  );
+        payload,
+      })
+      .onConflictDoUpdate({
+        target: assets.id,
+        set: {
+          tenantId: SILVA_FO_TENANT_ID,
+          entityId: asset.entityId,
+          type: asset.type,
+          name: asset.name,
+          payload,
+          updatedAt: new Date(),
+        },
+      });
+  }
 
   await db
     .insert(portfolioCash)
