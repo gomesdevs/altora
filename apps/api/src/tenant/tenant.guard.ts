@@ -52,3 +52,14 @@ export const CurrentTenant = createParamDecorator(
     return request.tenantId;
   },
 );
+
+export const CurrentActor = createParamDecorator(
+  (_data: unknown, ctx: ExecutionContext): string => {
+    const request = ctx.switchToHttp().getRequest<TenantRequest>();
+    const sub = request.auth?.sub;
+    if (!sub) {
+      throw new UnauthorizedException("actor not resolved");
+    }
+    return sub;
+  },
+);
