@@ -1,7 +1,8 @@
 # Feature: Asset CRUD + wizard (imóvel + FII)
 
-**Status:** active  
+**Status:** completed  
 **Criado em:** 2026-07-28  
+**Concluído em:** 2026-07-28  
 **ADR relacionados:** [ADR-002](../../adr/002-multi-tenant-row-level-security.md), [ADR-005](../../adr/005-auth-clerk.md)
 
 ## Objetivo
@@ -16,12 +17,12 @@ Portfólio Silva FO existe via seed/in-memory. Falta fluxo de criação de ativo
 
 ### Incluído
 
-- [ ] Schemas `CreateAssetInput` (imovel | fii) em `@altora/domain`
-- [ ] `GET /assets`, `POST /assets`, `GET /assets/entities` — TenantGuard + Bearer
-- [ ] Repositório in-memory + sync com portfolio demo
-- [ ] Audit log stub append-only em `POST /assets`
-- [ ] Wizard `/assets/new` (React Hook Form + Zod)
-- [ ] Testes API + contrato web
+- [x] Schemas `CreateAssetInput` (imovel | fii) em `@altora/domain`
+- [x] `GET /assets`, `POST /assets`, `GET /assets/entities` — TenantGuard + Bearer
+- [x] Repositório in-memory + sync com portfolio demo
+- [x] Audit log stub append-only em `POST /assets`
+- [x] Wizard `/assets/new` (React Hook Form + Zod)
+- [x] Testes API + contrato web
 
 ### Fora de escopo
 
@@ -32,12 +33,12 @@ Portfólio Silva FO existe via seed/in-memory. Falta fluxo de criação de ativo
 
 ## Critérios de aceite
 
-- [ ] `tenant_id` do JWT; 401 sem Bearer
-- [ ] POST valida body com Zod; rejeita tipos fora imovel/fii
-- [ ] GET lista só ativos do tenant
-- [ ] Mutação gera evento audit (`asset.create`)
-- [ ] Wizard envia Bearer; não calcula métricas no browser
-- [ ] `pnpm test` verde; spec em `completed/`
+- [x] `tenant_id` do JWT; 401 sem Bearer
+- [x] POST valida body com Zod; rejeita tipos fora imovel/fii
+- [x] GET lista só ativos do tenant
+- [x] Mutação gera evento audit (`asset.create`)
+- [x] Wizard envia Bearer; não calcula métricas no browser
+- [x] `pnpm test` verde; spec em `completed/`
 
 ## Arquivos afetados (previstos)
 
@@ -55,9 +56,9 @@ Portfólio Silva FO existe via seed/in-memory. Falta fluxo de criação de ativo
 
 ## Definition of Done
 
-- [ ] Critérios de aceite verificados
-- [ ] Testes passam
-- [ ] Spec em `completed/`
+- [x] Critérios de aceite verificados
+- [x] Testes passam
+- [x] Spec em `completed/`
 
 ## Notas de implementação
 
