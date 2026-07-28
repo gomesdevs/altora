@@ -2,3 +2,4 @@ export const PORTFOLIO_REPOSITORY = Symbol("PORTFOLIO_REPOSITORY");
 export const SCENARIO_REPOSITORY = Symbol("SCENARIO_REPOSITORY");
 export const AUDIT_LOG_REPOSITORY = Symbol("AUDIT_LOG_REPOSITORY");
 export const ASSET_REPOSITORY = Symbol("ASSET_REPOSITORY");
+export const DB = Symbol("DB");

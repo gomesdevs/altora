@@ -13,8 +13,6 @@ import {
 import { randomUUID } from "node:crypto";
 
 import { AuditService } from "../audit/audit.service";
-import { PORTFOLIO_REPOSITORY } from "../tokens";
-import type { PortfolioRepository } from "../portfolio/portfolio.repository";
 import { ASSET_REPOSITORY } from "../tokens";
 import type { AssetRepository } from "./asset.repository";
 
@@ -25,8 +23,6 @@ export class AssetsService {
   constructor(
     @Inject(ASSET_REPOSITORY)
     private readonly assets: AssetRepository,
-    @Inject(PORTFOLIO_REPOSITORY)
-    private readonly portfolios: PortfolioRepository,
     @Inject(AuditService)
     private readonly audit: AuditService,
   ) {}
@@ -63,11 +59,6 @@ export class AssetsService {
 
     const asset = assetFromCreateInput(parsed.data, randomUUID());
     const stored = await this.assets.create(tenantId, asset);
-
-    const portfolio = await this.portfolios.findByTenant(tenantId);
-    if (portfolio) {
-      portfolio.assets.push(stored);
-    }
 
     await this.audit.record({
       tenantId,
