@@ -22,7 +22,7 @@ import {
 
 const url =
   process.env.DATABASE_URL ??
-  "postgresql://altora:altora@localhost:5432/altora";
+  "postgresql://altora:altora@localhost:5433/altora";
 
 async function main() {
   const db = createDb(url);

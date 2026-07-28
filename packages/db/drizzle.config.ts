@@ -7,6 +7,6 @@ export default defineConfig({
   dbCredentials: {
     url:
       process.env.DATABASE_URL ??
-      "postgresql://altora:altora@localhost:5432/altora",
+      "postgresql://altora:altora@localhost:5433/altora",
   },
 });
