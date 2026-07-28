@@ -16,6 +16,7 @@ Next.js App Router. Camada de apresentação — **sem regras de domínio patrim
 - Validar forms com schemas Zod importados de `packages/domain`
 - Usar componentes de `packages/ui` quando existirem
 - Respeitar RBAC na UI (ocultar ações, não só desabilitar)
+- Enviar `Authorization: Bearer` (sessão JWT) — nunca `x-tenant-id`
 
 ## Não fazer
 

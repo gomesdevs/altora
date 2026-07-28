@@ -1,7 +1,9 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
+import Link from "next/link";
 
+import { useAuth } from "@/lib/auth/auth-context";
 import { fetchConsolidatedPortfolio } from "../../lib/portfolio-api";
 
 const CLASS_LABELS: Record<string, string> = {
@@ -24,10 +26,35 @@ function formatPct(ratio: number): string {
 }
 
 export function DashboardView() {
+  const { accessToken, isReady, logout } = useAuth();
+
   const { data, isLoading, isError, error, refetch, isFetching } = useQuery({
-    queryKey: ["portfolio", "consolidated"],
-    queryFn: fetchConsolidatedPortfolio,
+    queryKey: ["portfolio", "consolidated", accessToken],
+    queryFn: () => {
+      if (!accessToken) {
+        throw new Error("Sessão ausente — faça login.");
+      }
+      return fetchConsolidatedPortfolio(accessToken);
+    },
+    enabled: isReady && Boolean(accessToken),
   });
+
+  if (!isReady) {
+    return <p style={{ opacity: 0.7 }}>Carregando sessão…</p>;
+  }
+
+  if (!accessToken) {
+    return (
+      <div>
+        <p style={{ color: "#8b1e1e" }}>
+          Sessão necessária para ver o patrimônio.
+        </p>
+        <p style={{ marginTop: "0.75rem" }}>
+          <Link href="/login?next=/dashboard">Fazer login</Link>
+        </p>
+      </div>
+    );
+  }
 
   if (isLoading) {
     return <p style={{ opacity: 0.7 }}>Carregando consolidação…</p>;
@@ -40,9 +67,8 @@ export function DashboardView() {
           {error instanceof Error ? error.message : "Erro ao carregar dashboard"}
         </p>
         <p style={{ opacity: 0.7, fontSize: "0.9rem", marginTop: "0.75rem" }}>
-          Confirme que a API está em{" "}
-          <code>localhost:3001</code> com header{" "}
-          <code>x-tenant-id</code>.
+          Confirme que a API está em <code>localhost:3001</code> e que{" "}
+          <code>AUTH_DEV_SECRET</code> é o mesmo no web e na API.
         </p>
         <button
           type="button"
@@ -58,6 +84,21 @@ export function DashboardView() {
         >
           Tentar de novo
         </button>
+        <button
+          type="button"
+          onClick={() => void logout()}
+          style={{
+            marginTop: "1rem",
+            marginLeft: "0.75rem",
+            padding: "0.5rem 1rem",
+            border: "1px solid #1a1a1a",
+            background: "transparent",
+            cursor: "pointer",
+            fontFamily: "inherit",
+          }}
+        >
+          Sair
+        </button>
       </div>
     );
   }
@@ -68,6 +109,28 @@ export function DashboardView() {
 
   return (
     <div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "flex-end",
+          marginBottom: "1rem",
+        }}
+      >
+        <button
+          type="button"
+          onClick={() => void logout()}
+          style={{
+            padding: "0.35rem 0.75rem",
+            border: "1px solid rgba(0,0,0,0.2)",
+            background: "transparent",
+            cursor: "pointer",
+            fontFamily: "inherit",
+            fontSize: "0.85rem",
+          }}
+        >
+          Sair
+        </button>
+      </div>
       <div
         style={{
           display: "grid",
@@ -133,7 +196,7 @@ export function DashboardView() {
 
       <p style={{ marginTop: "2rem", fontSize: "0.8rem", opacity: 0.55 }}>
         Métricas calculadas na API via <code>@altora/domain</code>
-        {isFetching ? " · atualizando…" : ""}.
+        {isFetching ? " · atualizando…" : ""}. Tenant vem do JWT da sessão.
       </p>
     </div>
   );

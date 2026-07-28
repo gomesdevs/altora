@@ -17,6 +17,17 @@ export default function HomePage() {
       </p>
       <p style={{ marginTop: "2rem" }}>
         <Link
+          href="/login"
+          style={{
+            color: "inherit",
+            borderBottom: "1px solid currentColor",
+            textDecoration: "none",
+          }}
+        >
+          Entrar
+        </Link>
+        {" · "}
+        <Link
           href="/dashboard"
           style={{
             color: "inherit",
@@ -24,7 +35,7 @@ export default function HomePage() {
             textDecoration: "none",
           }}
         >
-          Abrir dashboard patrimonial
+          Dashboard
         </Link>
         {" · "}
         <Link
@@ -35,7 +46,7 @@ export default function HomePage() {
             textDecoration: "none",
           }}
         >
-          Modelar cenário what-if
+          What-If
         </Link>
       </p>
     </main>

@@ -1,6 +1,6 @@
 import type { Premises, SimulationResult } from "@altora/domain";
 
-import { API_URL, TENANT_ID } from "./portfolio-api";
+import { API_URL } from "./portfolio-api";
 
 export type SimulateScenarioResponse = {
   id: string;
@@ -26,16 +26,21 @@ export type SimulateScenarioInput = {
 };
 
 export async function simulateScenario(
+  accessToken: string,
   input: SimulateScenarioInput,
 ): Promise<SimulateScenarioResponse> {
   const res = await fetch(`${API_URL}/scenarios/simulate`, {
     method: "POST",
     headers: {
       "content-type": "application/json",
-      "x-tenant-id": TENANT_ID,
+      Authorization: `Bearer ${accessToken}`,
     },
     body: JSON.stringify(input),
   });
+
+  if (res.status === 401) {
+    throw new Error("Sessão inválida — faça login novamente.");
+  }
 
   if (!res.ok) {
     const text = await res.text();

@@ -13,7 +13,7 @@ NestJS. Cérebro da aplicação: ativos, entidades, permissões, orquestração 
 ## Fazer
 
 ```typescript
-// ✅ Guard + tenant explícito
+// ✅ Guard + tenant do JWT (Authorization Bearer)
 @UseGuards(TenantGuard, RolesGuard)
 @Get('assets')
 findAll(@CurrentTenant() tenantId: string) {
@@ -21,6 +21,11 @@ findAll(@CurrentTenant() tenantId: string) {
 }
 ```
 
+```typescript
+// ❌ Não confiar em x-tenant-id — tenant vem do JWT (ADR-005)
+```
+
+Auth: ver [ADR-005](../../docs/adr/005-auth-clerk.md). Modo `dev` = HS256; modo `clerk` = JWKS.
 ```typescript
 // ✅ Delegar regras para packages/domain
 import { calculatePortfolioMetrics } from '@altora/domain';

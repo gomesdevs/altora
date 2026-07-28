@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useAuth } from "@/lib/auth/auth-context";
 import { formatBrl, formatPct } from "@/lib/format";
 import { simulateScenario } from "@/lib/scenarios-api";
 import {
@@ -51,14 +52,22 @@ const defaultValues: WhatIfFormValues = {
 };
 
 export function WhatIfView() {
+  const { accessToken } = useAuth();
   const form = useForm<WhatIfFormValues>({
     resolver: zodResolver(WhatIfFormSchema),
     defaultValues,
   });
 
   const mutation = useMutation({
-    mutationFn: (values: WhatIfFormValues) =>
-      simulateScenario(formValuesToSimulateInput(values)),
+    mutationFn: (values: WhatIfFormValues) => {
+      if (!accessToken) {
+        throw new Error("Sessão ausente — faça login.");
+      }
+      return simulateScenario(
+        accessToken,
+        formValuesToSimulateInput(values),
+      );
+    },
   });
 
   const onSubmit = form.handleSubmit((values) => {
@@ -209,9 +218,20 @@ export function WhatIfView() {
               </Alert>
             )}
 
-            <Button type="submit" disabled={mutation.isPending}>
+            <Button
+              type="submit"
+              disabled={mutation.isPending || !accessToken}
+            >
               {mutation.isPending ? "Simulando…" : "Simular cenário"}
             </Button>
+            {!accessToken && (
+              <p className="text-sm text-destructive">
+                Sessão necessária.{" "}
+                <a className="underline" href="/login?next=/what-if">
+                  Fazer login
+                </a>
+              </p>
+            )}
           </form>
         </CardContent>
       </Card>

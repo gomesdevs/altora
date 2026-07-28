@@ -9,17 +9,22 @@ export type ConsolidatedPortfolio = {
   assetCount: number;
 };
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001";
-const TENANT_ID =
-  process.env.NEXT_PUBLIC_TENANT_ID ?? "a1111111-1111-4111-8111-111111111111";
+export const API_URL =
+  process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001";
 
-export async function fetchConsolidatedPortfolio(): Promise<ConsolidatedPortfolio> {
+export async function fetchConsolidatedPortfolio(
+  accessToken: string,
+): Promise<ConsolidatedPortfolio> {
   const res = await fetch(`${API_URL}/portfolio/consolidated`, {
     headers: {
-      "x-tenant-id": TENANT_ID,
+      Authorization: `Bearer ${accessToken}`,
     },
     cache: "no-store",
   });
+
+  if (res.status === 401) {
+    throw new Error("Sessão inválida — faça login novamente.");
+  }
 
   if (!res.ok) {
     throw new Error(`Falha ao carregar portfólio (${res.status})`);
@@ -27,5 +32,3 @@ export async function fetchConsolidatedPortfolio(): Promise<ConsolidatedPortfoli
 
   return res.json() as Promise<ConsolidatedPortfolio>;
 }
-
-export { TENANT_ID, API_URL };

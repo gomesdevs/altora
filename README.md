@@ -12,8 +12,20 @@ pnpm dev
 ```
 
 Tenant demo (Silva FO): `a1111111-1111-4111-8111-111111111111`  
-API: `GET /portfolio/consolidated` com header `x-tenant-id`  
+Auth: login em [/login](http://localhost:3000/login) (modo `AUTH_MODE=dev` emite JWT com `tenant_id`)  
+API: `Authorization: Bearer <session JWT>` — `TenantGuard` **não** lê `x-tenant-id`  
 Web: [/dashboard](http://localhost:3000/dashboard) via `NEXT_PUBLIC_API_URL` (default `http://localhost:3001`)
+
+### Auth (env)
+
+| Variável | Uso |
+|----------|-----|
+| `AUTH_MODE` | `dev` (default) ou `clerk` |
+| `AUTH_DEV_SECRET` | Segredo HS256 compartilhado web ↔ api (modo dev) |
+| `CLERK_JWKS_URL` / `CLERK_ISSUER` | Verificação JWT em `AUTH_MODE=clerk` |
+| `NEXT_PUBLIC_API_URL` | Base da API Nest |
+
+Use o **mesmo** `AUTH_DEV_SECRET` em `apps/web` e `apps/api`.
 
 ## Documentação
 
