@@ -15,6 +15,7 @@ export type StoredScenario = {
 export interface ScenarioRepository {
   save(record: StoredScenario): Promise<StoredScenario>;
   findById(tenantId: string, id: string): Promise<StoredScenario | null>;
+  listByTenant(tenantId: string): Promise<StoredScenario[]>;
 }
 
 export class InMemoryScenarioRepository implements ScenarioRepository {
@@ -35,5 +36,13 @@ export class InMemoryScenarioRepository implements ScenarioRepository {
     id: string,
   ): Promise<StoredScenario | null> {
     return this.byTenant.get(tenantId)?.get(id) ?? null;
+  }
+
+  async listByTenant(tenantId: string): Promise<StoredScenario[]> {
+    const bucket = this.byTenant.get(tenantId);
+    if (!bucket) return [];
+    return [...bucket.values()].sort((a, b) =>
+      b.createdAt.localeCompare(a.createdAt),
+    );
   }
 }

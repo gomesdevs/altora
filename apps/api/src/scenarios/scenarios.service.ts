@@ -164,6 +164,15 @@ export class ScenariosService {
     if (!stored) {
       throw new NotFoundException("Scenario not found for tenant");
     }
+    return this.toResponse(stored);
+  }
+
+  async list(tenantId: string): Promise<SimulateScenarioResponse[]> {
+    const rows = await this.scenarios.listByTenant(tenantId);
+    return rows.map((stored) => this.toResponse(stored));
+  }
+
+  private toResponse(stored: StoredScenario): SimulateScenarioResponse {
     return {
       id: stored.id,
       tenantId: stored.tenantId,

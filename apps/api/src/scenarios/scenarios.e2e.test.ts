@@ -79,4 +79,44 @@ describe("e2e POST /scenarios/simulate", () => {
     });
     expect(res.status).toBe(401);
   });
+
+  it("GET /scenarios lista cenários do tenant", async () => {
+    await fetch(`${baseUrl}/scenarios/simulate`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        authorization: `Bearer ${bearer}`,
+      },
+      body: JSON.stringify({
+        name: "list a",
+        premises: { vacancia_percentual: 5 },
+      }),
+    });
+    await fetch(`${baseUrl}/scenarios/simulate`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        authorization: `Bearer ${bearer}`,
+      },
+      body: JSON.stringify({
+        name: "list b",
+        premises: { vacancia_percentual: 10 },
+      }),
+    });
+
+    const listRes = await fetch(`${baseUrl}/scenarios`, {
+      headers: { authorization: `Bearer ${bearer}` },
+    });
+    expect(listRes.status).toBe(200);
+    const items = (await listRes.json()) as Array<{
+      id: string;
+      name: string;
+      result: { cashFlow: unknown };
+    }>;
+    expect(items.length).toBeGreaterThanOrEqual(2);
+    expect(items[0]?.result.cashFlow).toBeDefined();
+
+    const noAuth = await fetch(`${baseUrl}/scenarios`);
+    expect(noAuth.status).toBe(401);
+  });
 });
