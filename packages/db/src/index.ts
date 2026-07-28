@@ -10,3 +10,8 @@ export {
   type SeedAssetRow,
   type SeedEntity,
 } from "./seed-data/silva-fo.js";
+export { withTenant } from "./repositories/with-tenant.js";
+export { assetRowToDomain, assetToPayload } from "./repositories/asset-mapper.js";
+export { DrizzleAssetRepository } from "./repositories/asset.repository.js";
+export { DrizzlePortfolioRepository } from "./repositories/portfolio.repository.js";
+export type { PortfolioRecord } from "./repositories/types.js";
