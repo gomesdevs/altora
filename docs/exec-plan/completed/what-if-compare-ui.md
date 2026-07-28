@@ -1,7 +1,8 @@
 # Feature: What-If Compare UI — comparar cenários lado a lado
 
-**Status:** active  
+**Status:** completed  
 **Criado em:** 2026-07-28  
+**Concluído em:** 2026-07-28  
 **ADR relacionados:** [ADR-003](../../adr/003-what-if-snapshot-architecture.md), [ADR-005](../../adr/005-auth-clerk.md)
 
 ## Objetivo
@@ -16,11 +17,11 @@ Simular e persistir já existem (`POST /scenarios/simulate`, `GET /scenarios/:id
 
 ### Incluído
 
-- [ ] `GET /scenarios` — lista cenários do tenant autenticado (Bearer / TenantGuard)
-- [ ] Página `/what-if/compare` — listar, selecionar 2–3, comparar caixa/yield/concentração
-- [ ] Client TanStack Query com `Authorization: Bearer`
-- [ ] Disclaimer INV-06 visível na comparação
-- [ ] Testes de contrato mínimos (API list + UI sem `simulate`)
+- [x] `GET /scenarios` — lista cenários do tenant autenticado (Bearer / TenantGuard)
+- [x] Página `/what-if/compare` — listar, selecionar 2–3, comparar caixa/yield/concentração
+- [x] Client TanStack Query com `Authorization: Bearer`
+- [x] Disclaimer INV-06 visível na comparação
+- [x] Testes de contrato mínimos (API list + UI sem `simulate`)
 
 ### Fora de escopo
 
@@ -30,14 +31,14 @@ Simular e persistir já existem (`POST /scenarios/simulate`, `GET /scenarios/:id
 
 ## Critérios de aceite
 
-- [ ] Lista filtrada por `tenant_id` do JWT; 401 sem Bearer
-- [ ] UI permite no máximo 3 cenários selecionados (mínimo 2 para comparar)
-- [ ] Colunas lado a lado: cashFlow 30/90/180/365, yield before/after, concentration.byClass
-- [ ] Frontend não importa `simulate` de `@altora/domain`
-- [ ] `pnpm --filter api test` e `pnpm --filter web test` verdes
-- [ ] Spec movida para `completed/`
+- [x] Lista filtrada por `tenant_id` do JWT; 401 sem Bearer
+- [x] UI permite no máximo 3 cenários selecionados (mínimo 2 para comparar)
+- [x] Colunas lado a lado: cashFlow 30/90/180/365, yield before/after, concentration.byClass
+- [x] Frontend não importa `simulate` de `@altora/domain`
+- [x] `pnpm --filter api test` e `pnpm --filter web test` verdes
+- [x] Spec movida para `completed/`
 
-## Arquivos afetados (previstos)
+## Arquivos afetados
 
 | Área | Arquivos/pacotes |
 |------|------------------|
@@ -52,11 +53,12 @@ Simular e persistir já existem (`POST /scenarios/simulate`, `GET /scenarios/:id
 
 ## Definition of Done
 
-- [ ] Critérios de aceite verificados
-- [ ] Testes passam
-- [ ] Spec em `completed/`
+- [x] Critérios de aceite verificados
+- [x] Testes passam
+- [x] Spec em `completed/`
 
 ## Notas de implementação
 
 - Ordenar lista por `createdAt` desc
 - Rota `GET /scenarios` registrada **antes** de `GET /scenarios/:id`
+- Seleção limitada no client; comparação usa DTOs já retornados por `listScenarios`
